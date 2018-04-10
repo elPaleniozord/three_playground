@@ -6,6 +6,7 @@
   <script type="text/javascript" src="D:\Programowanie\projekty\three_playground\libs/three.js"></script>
   <script type="text/javascript" src="D:\Programowanie\projekty\three_playground\libs/jquery-1.9.0.js"></script>
   <script type="text/javascript" src="D:\Programowanie\projekty\three_playground\libs/stats.js"></script>
+  <script type="text/javascript" src="D:\Programowanie\projekty\three_playground\libs/dat.gui.js"></script>
 
   <style>
     body{
@@ -20,6 +21,18 @@
     <div id="WebGL-output"></div>
     <script type="text/javascript">
 
+    //UI
+    var controls = new function(){
+      this.rotationSpeed = 0.02;
+      this.bouncingSpeed = 0.02;
+    };
+
+    var gui = new dat.GUI();
+    gui.add(controls, 'rotationSpeed', 0, 0.5);
+    gui.add(controls, 'bouncingSpeed', 0, 0.5);
+
+
+      //stats
       function initStats(){
         var stats = new Stats();
         stats.setMode(0); //0 = fps, 1 = render time
@@ -72,7 +85,7 @@
         scene.add(cube);
 
         var sphereGeometry = new THREE.SphereGeometry(4,60,10);
-        var sphereMaterial = new THREE.MeshLambertMaterial({ color: "blue"});
+        var sphereMaterial = new THREE.MeshLambertMaterial({ color: 0x7777ff});
         var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
         sphere.position.x = 20;
@@ -87,6 +100,9 @@
         camera.position.z = 30;
         camera.lookAt(scene.position);
 
+        var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+        scene.add(ambientLight)
+
         var spotLight = new THREE.SpotLight( 0xffffff);
         spotLight.position.set(-40, 60, -10);
         spotLight.castShadow = true;
@@ -95,16 +111,17 @@
 
         document.getElementById('WebGL-output').appendChild(renderer.domElement)
         var step = 0;
+
         renderScene();
 
         function renderScene (){
           stats.update();
 
-          cube.rotation.x +=0.02;
-          cube.rotation.y +=0.02;
-          cube.rotation.z +=0.02;
+          cube.rotation.x +=controls.rotationSpeed;
+          cube.rotation.y +=controls.rotationSpeed;
+          cube.rotation.z +=controls.rotationSpeed;
 
-          step += 0.04;
+          step += controls.bouncingSpeed;
           sphere.position.x = 20 + (10* (Math.cos(step)));
           sphere.position.y = 2 + (10*Math.abs(Math.sin(step)));
 
