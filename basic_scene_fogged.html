@@ -77,6 +77,10 @@
         spotLight.castShadow = true;
         scene.add(spotLight);
 
+
+        scene.fog=new THREE.Fog(0xffffff, 0.015, 100);
+        scene.overrideMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff});
+
         // add the output of the renderer to the html element
         document.getElementById("WebGL-output").appendChild(renderer.domElement);
 
