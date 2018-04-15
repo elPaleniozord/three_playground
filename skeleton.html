@@ -26,7 +26,39 @@
 
 <!-- Javascript code that runs our Three.js examples -->
 <script type="text/javascript">
+  function init(){
+    var stats = initStats();
 
+    //Scene
+    var scene = new THREE.Scene();
+
+    //camera
+    var camera = new THREE.PerspectiveCamera(45, window.innerWIdth/window.innerHeight,0.1,1000);
+
+    //renderer
+    var renderer = new THREE.WebGLRebderer();
+    renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
+    renderer.setSize(window.innerWIdth,window.innerHeight);
+    renderer.shadowMapEnabled = true;
+    
+
+
+  }
+  function initStats(){
+    var stats = new Stats();
+
+    stats.setMode(0); //0 - fps, 1 - ms
+
+    //align to top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+
+    document.getElementById("Stats-output").appendChild(stats.domElement);
+
+    return stats;
+  } //initstats end
+  window.onload = init;
 </script>
 </body>
 </html>
